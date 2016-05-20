@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "centos-7.2"
+  config.vm.network "private_network", ip: "192.168.50.100"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+  end
+  config.vm.provision "chef_zero" do |chef|
+    chef.cookbooks_path = "/Users/rtham/Projects/DoStuff/chef-repo/cookbooks"
+    chef.data_bags_path = "/Users/rtham/Projects/DoStuff/chef-repo/data_bags"
+    chef.roles_path = "/Users/rtham/Projects/DoStuff/chef-repo/roles"
+    chef.environments_path = "/Users/rtham/Projects/DoStuff/chef-repo/environments"
+    chef.nodes_path = "/Users/rtham/Projects/DoStuff/.nodes"
+    chef.add_recipe "dostuff-python"
+    chef.add_recipe "yum-ius"
+  end
+end
